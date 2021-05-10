@@ -18,8 +18,10 @@
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "App\\": "/"
+            "IakID\\IakApiPHP\\": "app"
         }
     },
-    "require": {}
+    "require": {
+        "guzzlehttp/guzzle": "^7.3"
+    }
 }
