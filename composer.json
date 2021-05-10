@@ -1,0 +1,25 @@
+{
+    "name": "iak-id/iak-api-php",
+    "description": "PHP-based SDK for IAK API Services",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Indobest Artha Kreasi",
+            "email": "techsupport@mobilepulsa.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/iak-id/iak-api-php.git"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "App\\": "/"
+        }
+    },
+    "require": {}
+}
