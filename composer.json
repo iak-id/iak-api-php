@@ -18,10 +18,15 @@
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "IakID\\IakApiPHP\\": "app"
+            "IakID\\IakApiPHP\\": "app",
+            "Tests\\": "tests"
         }
     },
     "require": {
         "guzzlehttp/guzzle": "^7.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "mockery/mockery": "^1.4"
     }
 }

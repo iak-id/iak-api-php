@@ -27,8 +27,6 @@ class IAKPrepaid extends IAK
         try {
             return Guzzle::sendRequest($this->url . '/api/check-balance', 'POST', $this->headers, $request);
         } catch (RequestException $e) {
-            Log::error('Failed check balnace', [$e]);
-            
             throw new IAKException($e->getMessage());
         }
     }

@@ -11,6 +11,6 @@ class IAKValidationHelper
 
     public static function getMissingFields($content, $fields)
     {
-        return array_diff($fields, array_keys($content));
+        return array_values(array_diff($fields, array_keys($content)));
     }
 }
