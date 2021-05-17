@@ -6,6 +6,7 @@ use GuzzleHttp\Exception\RequestException;
 use IakID\IakApiPHP\Exceptions\IAKException;
 use IakID\IakApiPHP\Helpers\Formats\Url;
 use IakID\IakApiPHP\Helpers\Request\Guzzle;
+use IakID\IakApiPHP\Helpers\Validations\IAKPrepaidValidator;
 use IakID\IakApiPHP\IAK;
 
 class IAKPrepaid extends IAK
@@ -26,6 +27,32 @@ class IAKPrepaid extends IAK
 
         try {
             return Guzzle::sendRequest($this->url . '/api/check-balance', 'POST', $this->headers, $request);
+        } catch (RequestException $e) {
+            throw new IAKException($e->getMessage());
+        }
+    }
+
+    public function pricelist($request = [])
+    {
+        IAKPrepaidValidator::validatePricelistRequest($request);
+
+        $request = array_merge($request, [
+            'username' => $this->credential['userHp'],
+            'sign' => md5($this->credential['userHp'] . $this->credential['apiKey'] . 'pl')
+        ]);
+
+        $prepaidUrl = $this->url . '/api/pricelist';
+
+        if (!empty($request['type'])) {
+            $prepaidUrl .= '/' . $request['type'];
+        }
+
+        if (!empty($request['operator'])) {
+            $prepaidUrl .= '/' . $request['operator'];
+        }
+
+        try {
+            return Guzzle::sendRequest($prepaidUrl, 'POST', $this->headers, $request);
         } catch (RequestException $e) {
             throw new IAKException($e->getMessage());
         }

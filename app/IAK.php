@@ -2,7 +2,7 @@
 
 namespace IakID\IakApiPHP;
 
-use IakID\IakApiPHP\Helpers\IAKValidator;
+use IakID\IakApiPHP\Helpers\Validations\IAKValidator;
 
 abstract class IAK
 {
