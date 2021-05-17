@@ -26,4 +26,9 @@ abstract class IAK
         $this->credential['userHp'] = $data['userHp'] ?? null;
         $this->credential['apiKey'] = $data['apiKey'] ?? null;
     }
+
+    protected function generateSign($sign)
+    {
+        return md5($this->credential['userHp'] . $this->credential['apiKey'] . $sign);
+    }
 }

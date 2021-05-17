@@ -14,4 +14,10 @@ class IAKPrepaidValidator
             throw new MissingArguements('Operator field is available but type field is missing.');
         }
     }
+
+    public static function validateTopUpRequest($request)
+    {
+        IAKValidationHelper::validateContentType($request);
+        IAKValidationHelper::validateContentFields($request, ['customerId', 'refId', 'productCode']);
+    }
 }

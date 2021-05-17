@@ -6,6 +6,7 @@ use GuzzleHttp\Exception\RequestException;
 use IakID\IakApiPHP\Exceptions\IAKException;
 use IakID\IakApiPHP\Helpers\Formats\Url;
 use IakID\IakApiPHP\Helpers\Request\Guzzle;
+use IakID\IakApiPHP\Helpers\Request\RequestFormatter;
 use IakID\IakApiPHP\Helpers\Validations\IAKPrepaidValidator;
 use IakID\IakApiPHP\IAK;
 
@@ -22,7 +23,7 @@ class IAKPrepaid extends IAK
     {       
         $request = [
             'username' => $this->credential['userHp'],
-            'sign' => md5($this->credential['userHp'] . $this->credential['apiKey'] . 'bl')
+            'sign' => $this->generateSign('bl')
         ];
 
         try {
@@ -38,7 +39,7 @@ class IAKPrepaid extends IAK
 
         $request = array_merge($request, [
             'username' => $this->credential['userHp'],
-            'sign' => md5($this->credential['userHp'] . $this->credential['apiKey'] . 'pl')
+            'sign' => $this->generateSign('pl')
         ]);
 
         $prepaidUrl = $this->url . '/api/pricelist';
@@ -53,6 +54,24 @@ class IAKPrepaid extends IAK
 
         try {
             return Guzzle::sendRequest($prepaidUrl, 'POST', $this->headers, $request);
+        } catch (RequestException $e) {
+            throw new IAKException($e->getMessage());
+        }
+    }
+
+    public function topUp($request = [])
+    {
+        IAKPrepaidValidator::validateTopUpRequest($request);
+
+        $request = RequestFormatter::formatArrayKeysToSnakeCase($request);
+
+        $request = array_merge($request, [
+            'username' => $this->credential['userHp'],
+            'sign' => $this->generateSign($request['ref_id'])
+        ]);
+
+        try {
+            return Guzzle::sendRequest($this->url . '/api/top-up', 'POST', $this->headers, $request);
         } catch (RequestException $e) {
             throw new IAKException($e->getMessage());
         }
