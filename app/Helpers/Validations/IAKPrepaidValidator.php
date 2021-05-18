@@ -6,6 +6,12 @@ use IakID\IakApiPHP\Exceptions\MissingArguements;
 
 class IAKPrepaidValidator
 {
+    public static function validateCheckStatusRequest($request)
+    {
+        IAKValidationHelper::validateContentType($request);
+        IAKValidationHelper::validateContentFields($request, ['refId']);
+    }
+
     public static function validatePricelistRequest($request)
     {
         IAKValidationHelper::validateContentType($request);

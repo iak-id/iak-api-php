@@ -24,7 +24,7 @@ class TopUpTest extends TestCase
     }
 
     /** @test */
-    public function top_up_return_success_and_not_empty()
+    public function top_up_return_success_and_not_empty(): void
     {
         $response = $this->iakPrepaid->topUp($this->request);
 
@@ -34,7 +34,7 @@ class TopUpTest extends TestCase
     }
 
     /** @test */
-    public function top_up_without_ref_id_return_missing_arguements()
+    public function top_up_without_ref_id_return_missing_arguements(): void
     {
         unset($this->request['refId']);
 
@@ -47,7 +47,7 @@ class TopUpTest extends TestCase
     }
 
     /** @test */
-    public function top_up_with_string_parameter_return_invalid_content_type()
+    public function top_up_with_string_parameter_return_invalid_content_type(): void
     {
         try {
             $this->iakPrepaid->topUp('request');

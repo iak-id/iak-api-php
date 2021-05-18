@@ -33,6 +33,24 @@ class IAKPrepaid extends IAK
         }
     }
 
+    public function checkStatus($request = [])
+    {
+        IAKPrepaidValidator::validateCheckStatusRequest($request);
+
+        $request = RequestFormatter::formatArrayKeysToSnakeCase($request);
+
+        $request = array_merge($request, [
+            'username' => $this->credential['userHp'],
+            'sign' => $this->generateSign($request['ref_id'])
+        ]);
+
+        try {
+            return Guzzle::sendRequest($this->url . '/api/check-status', 'POST', $this->headers, $request);
+        } catch (RequestException $e) {
+            throw new IAKException($e->getMessage());
+        }
+    }
+
     public function pricelist($request = [])
     {
         IAKPrepaidValidator::validatePricelistRequest($request);
