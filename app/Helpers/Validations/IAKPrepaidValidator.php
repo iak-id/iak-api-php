@@ -24,6 +24,12 @@ class IAKPrepaidValidator
         IAKValidationHelper::validateContentFields($request, ['gameCode']);
     }
 
+    public static function validateInquiryPLNRequest($request)
+    {
+        IAKValidationHelper::validateContentType($request);
+        IAKValidationHelper::validateContentFields($request, ['customerId']);
+    }
+
     public static function validatePricelistRequest($request)
     {
         IAKValidationHelper::validateContentType($request);
