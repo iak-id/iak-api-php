@@ -6,7 +6,7 @@ use IakID\IakApiPHP\Exceptions\MissingArguements;
 use Tests\Mock\Prepaid\InquiryPrepaidMock;
 use Tests\TestCase;
 
-class InquiryGameIDTest extends TestCase
+class InquiryGameServerTest extends TestCase
 {
     protected $mock, $request;
 
@@ -16,28 +16,27 @@ class InquiryGameIDTest extends TestCase
 
         $this->setUpMock();
         $this->request = [
-            'customerId' => '156378300|8483',
-            'gameCode' => '103'
+            'gameCode' => '142'
         ];
     }
 
     /** @test */
-    public function inquiry_game_id_return_success_and_not_empty(): void
+    public function inquiry_game_server_return_success_and_not_empty(): void
     {
-        $response = $this->iakPrepaid->inquiryGameID($this->request);
+        $response = $this->iakPrepaid->inquiryGameServer($this->request);
 
         $this->assertIsArray($response);
         $this->assertNotEmpty($response);
-        $this->assertEquals(InquiryPrepaidMock::getGameIDMock(), $response);
+        $this->assertEquals(InquiryPrepaidMock::getGameServerMock(), $response);
     }
 
     /** @test */
-    public function inquiry_game_id_without_customer_id_return_missing_arguements(): void
+    public function inquiry_game_server_without_game_code_return_missing_arguements(): void
     {
-        unset($this->request['customerId']);
+        unset($this->request['gameCode']);
 
         try {
-            $this->iakPrepaid->inquiryGameID($this->request);
+            $this->iakPrepaid->inquiryGameServer($this->request);
             $this->assertTrue(false);
         } catch (MissingArguements $e) {
             $this->assertTrue(true);
@@ -47,6 +46,6 @@ class InquiryGameIDTest extends TestCase
     private function setUpMock()
     {
         $this->mock = $this->mockClass('alias:IakID\IakApiPHP\Helpers\Request\Guzzle');
-        $this->mock->shouldReceive('sendRequest')->andReturn(InquiryPrepaidMock::getGameIDMock());
+        $this->mock->shouldReceive('sendRequest')->andReturn(InquiryPrepaidMock::getGameServerMock());
     }
 }
