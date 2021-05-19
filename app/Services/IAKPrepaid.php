@@ -51,6 +51,24 @@ class IAKPrepaid extends IAK
         }
     }
 
+    public function inquiryGameID($request = [])
+    {
+        IAKPrepaidValidator::validateInquiryGameIDRequest($request);
+
+        $request = RequestFormatter::formatArrayKeysToSnakeCase($request);
+
+        $request = array_merge($request, [
+            'username' => $this->credential['userHp'],
+            'sign' => $this->generateSign($request['game_code'])
+        ]);
+
+        try {
+            return Guzzle::sendRequest($this->url . '/api/inquiry-game', 'POST', $this->headers, $request);
+        } catch (RequestException $e) {
+            throw new IAKException($e->getMessage());
+        }
+    }
+
     public function pricelist($request = [])
     {
         IAKPrepaidValidator::validatePricelistRequest($request);

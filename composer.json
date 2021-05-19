@@ -18,7 +18,11 @@
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "IakID\\IakApiPHP\\": "app",
+            "IakID\\IakApiPHP\\": "app"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "Tests\\": "tests"
         }
     },
