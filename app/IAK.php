@@ -18,13 +18,28 @@ abstract class IAK
             'Content-Type' => 'application/json',
             'Accept' => 'application/json'
         ];
-        $this->stage = isset($data['stage']) && strtolower($data['stage']) == 'production' ? 'prod' : 'dev';
+        $this->stage = strtolower($this->stage) == 'production' ? 'prod' : 'dev';
     }
 
     private function setCredential($data)
     {
-        $this->credential['userHp'] = $data['userHp'] ?? null;
-        $this->credential['apiKey'] = $data['apiKey'] ?? null;
+        if (empty($data['userHp'])) {
+            $this->credential['userHp'] = isset($_ENV['IAK_USERHP']) ? $_ENV['IAK_USERHP'] : '';
+        } else {
+            $this->credential['userHp'] = $data['userHp'];
+        }
+
+        if (empty($data['apiKey'])) {
+            $this->credential['apiKey'] = isset($_ENV['IAK_APIKEY']) ? $_ENV['IAK_APIKEY'] : '';
+        } else {
+            $this->credential['apiKey'] = $data['apiKey'];
+        }
+
+        if (empty($data['stage'])) {
+            $this->stage = isset($_ENV['IAK_STAGE']) ? $_ENV['IAK_STAGE'] : '';
+        } else {
+            $this->stage = $data['stage'];
+        }
     }
 
     protected function generateSign($sign)

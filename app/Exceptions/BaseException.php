@@ -8,7 +8,7 @@ abstract class BaseException extends Exception
 {
     public function __construct($message = null)
     {
-        $this->message = $message ?? $this->setMessage();
+        $this->message = empty($message) ? $this->setMessage() : $message;
     }
 
     abstract public function setMessage();
