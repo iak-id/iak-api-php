@@ -5,6 +5,7 @@ namespace IakID\IakApiPHP\Services;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\RequestException;
 use IakID\IakApiPHP\Exceptions\IAKException;
+use IakID\IakApiPHP\Helpers\CoreHelper;
 use IakID\IakApiPHP\Helpers\Formats\Url;
 use IakID\IakApiPHP\Helpers\Request\Guzzle;
 use IakID\IakApiPHP\Helpers\Request\RequestFormatter;
@@ -30,6 +31,33 @@ class IAKPostpaid extends IAK
             'commands' => 'checkstatus',
             'username' => $this->credential['userHp'],
             'sign' => $this->generateSign('cs')
+        ]);
+
+        try {
+            return Guzzle::sendRequest($this->url . '/api/v1/bill/check', 'POST', $this->headers, $request);
+        } catch (ConnectException $e) {
+            throw new IAKException($e->getMessage());
+        } catch (RequestException $e) {
+            throw new IAKException($e->getMessage());
+        }
+    }
+
+    public function inquiry($request = [])
+    {
+        $requiredFields = ['code', 'hp', 'refId'];
+
+        if (!empty($request['code']) && CoreHelper::isStringContainsString($request['code'], 'bpjs')) {
+            array_push($requiredFields, 'month');
+        }
+
+        IAKPostpaidValidator::validateInquiryRequest($request, $requiredFields);
+
+        $request = RequestFormatter::formatArrayKeysToSnakeCase($request);
+
+        $request = array_merge($request, [
+            'commands' => 'inq-pasca',
+            'username' => $this->credential['userHp'],
+            'sign' => $this->generateSign($request['ref_id'])
         ]);
 
         try {

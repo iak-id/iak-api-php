@@ -8,7 +8,7 @@ class CheckStatusMock
     {
         return [
             'data' => [
-                'tr_id' => 9732795,
+                'tr_id' => 1,
                 'code' => 'CODE',
                 'datetime' => '20180803171608',
                 'hp' => '08123123123',

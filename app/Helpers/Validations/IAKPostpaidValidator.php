@@ -10,6 +10,12 @@ class IAKPostpaidValidator
         IAKValidationHelper::validateContentFields($request, ['refId']);
     }
 
+    public static function validateInquiryRequest($request, $fields)
+    {
+        IAKValidationHelper::validateContentType($request);
+        IAKValidationHelper::validateContentFields($request, $fields);
+    }
+
     public static function validatePricelistRequest($request)
     {
         IAKValidationHelper::validateContentType($request);
