@@ -15,8 +15,8 @@ class Guzzle
             'json' => $body,
             'connect_timeout' => $connectTimeout,
             'timeout' => $timeout
-        ]);
+        ])->getBody()->getContents();
 
-        return json_decode($response->getBody()->getContents(), true);
+        return json_decode($response, true) ? json_decode($response, true) : $response;
     }
 }

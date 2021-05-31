@@ -27,7 +27,7 @@ class InquiryTest extends TestCase
     {
         $this->mock->shouldReceive('sendRequest')->andReturn(InquiryPostpaidMock::getPDAMSuccessMock());
 
-        $response = $this->iakPostpaid->pricelist($this->request);
+        $response = $this->iakPostpaid->inquiry($this->request);
 
         $this->assertIsArray($response);
         $this->assertNotEmpty($response);
@@ -55,7 +55,7 @@ class InquiryTest extends TestCase
 
         $this->mock->shouldReceive('sendRequest')->andReturn(InquiryPostpaidMock::getBPJSSuccessMock());
 
-        $response = $this->iakPostpaid->pricelist($this->request);
+        $response = $this->iakPostpaid->inquiry($this->request);
 
         $this->assertIsArray($response);
         $this->assertNotEmpty($response);

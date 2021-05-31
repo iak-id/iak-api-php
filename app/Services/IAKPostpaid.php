@@ -42,6 +42,21 @@ class IAKPostpaid extends IAK
         }
     }
 
+    public function downloadBill($request = [])
+    {
+        IAKPostpaidValidator::validateDownloadBillRequest($request);
+
+        $downloadBillUrl = $this->url . '/api/v1/download/' . $request['trId'] . '/1';
+
+        try {
+            return Guzzle::sendRequest($downloadBillUrl, 'GET', $this->headers);
+        } catch (ConnectException $e) {
+            throw new IAKException($e->getMessage());
+        } catch (RequestException $e) {
+            throw new IAKException($e->getMessage());
+        }
+    }
+
     public function inquiry($request = [])
     {
         $requiredFields = ['code', 'hp', 'refId'];
