@@ -16,6 +16,12 @@ class IAKPostpaidValidator
         IAKValidationHelper::validateContentFields($request, $fields);
     }
 
+    public static function validatePaymentRequest($request)
+    {
+        IAKValidationHelper::validateContentType($request);
+        IAKValidationHelper::validateContentFields($request, ['trId']);
+    }
+
     public static function validatePricelistRequest($request)
     {
         IAKValidationHelper::validateContentType($request);

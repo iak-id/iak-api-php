@@ -69,6 +69,27 @@ class IAKPostpaid extends IAK
         }
     }
 
+    public function payment($request = [])
+    {
+        IAKPostpaidValidator::validatePaymentRequest($request);
+
+        $request = RequestFormatter::formatArrayKeysToSnakeCase($request);
+
+        $request = array_merge($request, [
+            'commands' => 'pay-pasca',
+            'username' => $this->credential['userHp'],
+            'sign' => $this->generateSign(strval($request['tr_id']))
+        ]);
+
+        try {
+            return Guzzle::sendRequest($this->url . '/api/v1/bill/check', 'POST', $this->headers, $request);
+        } catch (ConnectException $e) {
+            throw new IAKException($e->getMessage());
+        } catch (RequestException $e) {
+            throw new IAKException($e->getMessage());
+        }
+    }
+
     public function pricelist($request = [])
     {
         IAKPostpaidValidator::validatePricelistRequest($request);
