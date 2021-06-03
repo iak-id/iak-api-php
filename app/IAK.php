@@ -18,7 +18,6 @@ abstract class IAK
             'Content-Type' => 'application/json',
             'Accept' => 'application/json'
         ];
-        $this->stage = strtolower($this->stage) == 'production' ? 'prod' : 'dev';
     }
 
     private function setCredential($data)
@@ -29,16 +28,18 @@ abstract class IAK
             $this->credential['userHp'] = $data['userHp'];
         }
 
-        if (empty($data['apiKey'])) {
-            $this->credential['apiKey'] = isset($_ENV['IAK_APIKEY']) ? $_ENV['IAK_APIKEY'] : '';
-        } else {
-            $this->credential['apiKey'] = $data['apiKey'];
-        }
-
         if (empty($data['stage'])) {
-            $this->stage = isset($_ENV['IAK_STAGE']) ? $_ENV['IAK_STAGE'] : '';
+            $this->stage = isset($_ENV['IAK_STAGE']) ? $_ENV['IAK_STAGE'] : 'SANDBOX';
         } else {
             $this->stage = $data['stage'];
+        }
+
+        $this->stage = strtoupper($this->stage) == 'PRODUCTION' ? 'PRODUCTION' : 'SANDBOX';
+
+        if (empty($data['apiKey'])) {
+            $this->credential['apiKey'] = isset($_ENV['IAK_APIKEY_' . $this->stage]) ? $_ENV['IAK_APIKEY_' . $this->stage] : '';
+        } else {
+            $this->credential['apiKey'] = $data['apiKey'];
         }
     }
 
