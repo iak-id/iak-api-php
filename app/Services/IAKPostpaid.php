@@ -2,9 +2,7 @@
 
 namespace IakID\IakApiPHP\Services;
 
-use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Exception\RequestException;
-use IakID\IakApiPHP\Exceptions\IAKException;
+use Exception;
 use IakID\IakApiPHP\Helpers\CoreHelper;
 use IakID\IakApiPHP\Helpers\Formats\Url;
 use IakID\IakApiPHP\Helpers\Request\Guzzle;
@@ -35,10 +33,8 @@ class IAKPostpaid extends IAK
 
         try {
             return Guzzle::sendRequest($this->url . '/api/v1/bill/check', 'POST', $this->headers, $request);
-        } catch (ConnectException $e) {
-            throw new IAKException($e->getMessage());
-        } catch (RequestException $e) {
-            throw new IAKException($e->getMessage());
+        } catch (Exception $e) {
+            Guzzle::throwIAKException($e);
         }
     }
 
@@ -50,10 +46,8 @@ class IAKPostpaid extends IAK
 
         try {
             return Guzzle::sendRequest($downloadBillUrl, 'GET', $this->headers);
-        } catch (ConnectException $e) {
-            throw new IAKException($e->getMessage());
-        } catch (RequestException $e) {
-            throw new IAKException($e->getMessage());
+        } catch (Exception $e) {
+            Guzzle::throwIAKException($e);
         }
     }
 
@@ -77,10 +71,8 @@ class IAKPostpaid extends IAK
 
         try {
             return Guzzle::sendRequest($this->url . '/api/v1/bill/check', 'POST', $this->headers, $request);
-        } catch (ConnectException $e) {
-            throw new IAKException($e->getMessage());
-        } catch (RequestException $e) {
-            throw new IAKException($e->getMessage());
+        } catch (Exception $e) {
+            Guzzle::throwIAKException($e);
         }
     }
 
@@ -98,10 +90,8 @@ class IAKPostpaid extends IAK
 
         try {
             return Guzzle::sendRequest($this->url . '/api/v1/bill/check', 'POST', $this->headers, $request);
-        } catch (ConnectException $e) {
-            throw new IAKException($e->getMessage());
-        } catch (RequestException $e) {
-            throw new IAKException($e->getMessage());
+        } catch (Exception $e) {
+            Guzzle::throwIAKException($e);
         }
     }
 
@@ -123,10 +113,8 @@ class IAKPostpaid extends IAK
 
         try {
             return Guzzle::sendRequest($postpaidUrl, 'POST', $this->headers, $request);
-        } catch (ConnectException $e) {
-            throw new IAKException($e->getMessage());
-        } catch (RequestException $e) {
-            throw new IAKException($e->getMessage());
+        } catch (Exception $e) {
+            Guzzle::throwIAKException($e);
         }
     }
 }
