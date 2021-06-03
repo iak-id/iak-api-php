@@ -1,5 +1,6 @@
 # API PHP SDK - IAK
 ![php version requirement](https://img.shields.io/badge/php%20version-%3E=%205.6-red)
+
 PHP library to help you integrate your system to Indobest Artha Kreasi (IAK) API services. This library consists of two sections, **prepaid** and **postpaid**
 
 **Note**: 
@@ -46,10 +47,10 @@ When creating an IAK instance, parameter passing can be ignored by configuring y
 1. Create .env file in your root project
 2. Define necessary key(s) to replace parameter field(s)
 3. Available keys:
-    - IAK_USERHP ---> Replace userHp field
-    - IAK_APIKEY_SANDBOX ---> Replace apiKey field if stage is **sandbox**
-    - IAK_APIKEY_PRODUCTION ---> Replace apiKey field if stage is **production**
-    - IAK_STAGE ---> Replace stage field
+    - IAK_USERHP --> Replace userHp field
+    - IAK_APIKEY_SANDBOX --> Replace apiKey field if stage is **sandbox**
+    - IAK_APIKEY_PRODUCTION --> Replace apiKey field if stage is **production**
+    - IAK_STAGE --> Replace stage field
 
 .env Example
 ```
@@ -58,7 +59,7 @@ IAK_APIKEY_SANDBOX=e8g32*******
 IAK_APIKEY_PRODUCTION=as342******
 IAK_STAGE=sandbox
 ```
-**Note: These keys also serve as default value if some field(s) is not available when creating an IAK instance**
+**Note: These keys also serve as default value if some field(s) are not available when creating an IAK instance**
 
 Code example without parameter passing
 ```php
@@ -76,6 +77,7 @@ In this case, **stage** value in parameter will override IAK_STAGE value in .env
 # Prepaid
 ## Check Balance
 API for checking your deposit balance
+
 Check balance function doesn't require any parameter to pass
 
 Code Example
@@ -518,6 +520,7 @@ Response Example
 
 # Response Code
 See [here](https://api.iak.id/docs/reference/docs/prepaid/response-code.md) for prepaid response code list
+
 See [here](https://api.iak.id/docs/reference/docs/postpaid/response-code.md) for postpaid response code list
 
 
