@@ -13,7 +13,8 @@ Using Composer
 composer require iak-id/iak-api-php
 ```
 
-# Configuration
+# Getting Started
+We will start things off with configuring IAK API credential which is required to use IAK API features. There are two ways to configure your API credential, pass your credential as parameter or set your initial credential in env file.
 ## Parameter Passing
 Passing your IAK API configuration as parameters when creating an IAK instance in your project.
 
