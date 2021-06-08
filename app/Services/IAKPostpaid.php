@@ -4,6 +4,7 @@ namespace IakID\IakApiPHP\Services;
 
 use Exception;
 use IakID\IakApiPHP\Helpers\CoreHelper;
+use IakID\IakApiPHP\Helpers\Formats\ResponseFormatter;
 use IakID\IakApiPHP\Helpers\Formats\Url;
 use IakID\IakApiPHP\Helpers\Request\Guzzle;
 use IakID\IakApiPHP\Helpers\Request\RequestFormatter;
@@ -21,100 +22,115 @@ class IAKPostpaid extends IAK
 
     public function checkStatus($request = [])
     {
-        IAKPostpaidValidator::validateCheckStatusRequest($request);
-
-        $request = RequestFormatter::formatArrayKeysToSnakeCase($request);
-
-        $request = array_merge($request, [
-            'commands' => 'checkstatus',
-            'username' => $this->credential['userHp'],
-            'sign' => $this->generateSign('cs')
-        ]);
-
         try {
-            return Guzzle::sendRequest($this->url . '/api/v1/bill/check', 'POST', $this->headers, $request);
+            IAKPostpaidValidator::validateCheckStatusRequest($request);
+
+            $request = RequestFormatter::formatArrayKeysToSnakeCase($request);
+
+            $request = array_merge($request, [
+                'commands' => 'checkstatus',
+                'username' => $this->credential['userHp'],
+                'sign' => $this->generateSign('cs')
+            ]);
+
+            $response = Guzzle::sendRequest($this->url . '/api/v1/bill/check', 'POST', $this->headers, $request);
+            $response = $response['data'];
+
+            return ResponseFormatter::formatResponse($response);
         } catch (Exception $e) {
-            Guzzle::throwIAKException($e);
+            return Guzzle::handleException($e);
         }
     }
 
     public function downloadBill($request = [])
     {
-        IAKPostpaidValidator::validateDownloadBillRequest($request);
-
-        $downloadBillUrl = $this->url . '/api/v1/download/' . $request['trId'] . '/1';
-
         try {
-            return Guzzle::sendRequest($downloadBillUrl, 'GET', $this->headers);
+            IAKPostpaidValidator::validateDownloadBillRequest($request);
+
+            $downloadBillUrl = $this->url . '/api/v1/download/' . $request['trId'] . '/1';
+
+            $response = Guzzle::sendRequest($downloadBillUrl, 'GET', $this->headers);
+            $response = $response['data'];
+
+            return ResponseFormatter::formatResponse($response);
         } catch (Exception $e) {
-            Guzzle::throwIAKException($e);
+            return Guzzle::handleException($e);
         }
     }
 
     public function inquiry($request = [])
     {
-        $requiredFields = ['code', 'hp', 'refId'];
-
-        if (!empty($request['code']) && CoreHelper::isStringContainsString($request['code'], 'bpjs')) {
-            array_push($requiredFields, 'month');
-        }
-
-        IAKPostpaidValidator::validateInquiryRequest($request, $requiredFields);
-
-        $request = RequestFormatter::formatArrayKeysToSnakeCase($request);
-
-        $request = array_merge($request, [
-            'commands' => 'inq-pasca',
-            'username' => $this->credential['userHp'],
-            'sign' => $this->generateSign($request['ref_id'])
-        ]);
-
         try {
-            return Guzzle::sendRequest($this->url . '/api/v1/bill/check', 'POST', $this->headers, $request);
+            $requiredFields = ['code', 'hp', 'refId'];
+
+            if (!empty($request['code']) && CoreHelper::isStringContainsString($request['code'], 'bpjs')) {
+                array_push($requiredFields, 'month');
+            }
+
+            IAKPostpaidValidator::validateInquiryRequest($request, $requiredFields);
+
+            $request = RequestFormatter::formatArrayKeysToSnakeCase($request);
+
+            $request = array_merge($request, [
+                'commands' => 'inq-pasca',
+                'username' => $this->credential['userHp'],
+                'sign' => $this->generateSign($request['ref_id'])
+            ]);
+
+            $response = Guzzle::sendRequest($this->url . '/api/v1/bill/check', 'POST', $this->headers, $request);
+            $response = $response['data'];
+
+            return ResponseFormatter::formatResponse($response);
         } catch (Exception $e) {
-            Guzzle::throwIAKException($e);
+            return Guzzle::handleException($e);
         }
     }
 
     public function payment($request = [])
     {
-        IAKPostpaidValidator::validatePaymentRequest($request);
-
-        $request = RequestFormatter::formatArrayKeysToSnakeCase($request);
-
-        $request = array_merge($request, [
-            'commands' => 'pay-pasca',
-            'username' => $this->credential['userHp'],
-            'sign' => $this->generateSign(strval($request['tr_id']))
-        ]);
-
         try {
-            return Guzzle::sendRequest($this->url . '/api/v1/bill/check', 'POST', $this->headers, $request);
+            IAKPostpaidValidator::validatePaymentRequest($request);
+
+            $request = RequestFormatter::formatArrayKeysToSnakeCase($request);
+
+            $request = array_merge($request, [
+                'commands' => 'pay-pasca',
+                'username' => $this->credential['userHp'],
+                'sign' => $this->generateSign(strval($request['tr_id']))
+            ]);
+
+            $response = Guzzle::sendRequest($this->url . '/api/v1/bill/check', 'POST', $this->headers, $request);
+            $response = $response['data'];
+
+            return ResponseFormatter::formatResponse($response);
         } catch (Exception $e) {
-            Guzzle::throwIAKException($e);
+            return Guzzle::handleException($e);
         }
     }
 
     public function pricelist($request = [])
     {
-        IAKPostpaidValidator::validatePricelistRequest($request);
-
-        $request = array_merge($request, [
-            'commands' => 'pricelist-pasca',
-            'username' => $this->credential['userHp'],
-            'sign' => $this->generateSign('pl')
-        ]);
-
-        $postpaidUrl = $this->url . '/api/v1/bill/check';
-
-        if (!empty($request['type'])) {
-            $postpaidUrl .= '/' . $request['type'];
-        }
-
         try {
-            return Guzzle::sendRequest($postpaidUrl, 'POST', $this->headers, $request);
+            IAKPostpaidValidator::validatePricelistRequest($request);
+
+            $request = array_merge($request, [
+                'commands' => 'pricelist-pasca',
+                'username' => $this->credential['userHp'],
+                'sign' => $this->generateSign('pl')
+            ]);
+
+            $postpaidUrl = $this->url . '/api/v1/bill/check';
+
+            if (!empty($request['type'])) {
+                $postpaidUrl .= '/' . $request['type'];
+            }
+
+            $response = Guzzle::sendRequest($postpaidUrl, 'POST', $this->headers, $request);
+            $response = $response['data'];
+            
+            return ResponseFormatter::formatResponse($response);
         } catch (Exception $e) {
-            Guzzle::throwIAKException($e);
+            return Guzzle::handleException($e);
         }
     }
 }

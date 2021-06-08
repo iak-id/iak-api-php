@@ -4,9 +4,7 @@ namespace IakID\IakApiPHP\Helpers\Request;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Exception\RequestException;
-use IakID\IakApiPHP\Exceptions\IAKException;
-use IakID\IakApiPHP\Exceptions\UndefinedError;
+use IakID\IakApiPHP\Helpers\Formats\ResponseFormatter;
 
 class Guzzle
 {
@@ -24,12 +22,16 @@ class Guzzle
         return json_decode($response, true) ? json_decode($response, true) : $response;
     }
 
-    public static function throwIAKException($exception)
+    public static function handleException($exception)
     {
-        if ($exception instanceof ConnectException || $exception instanceof RequestException) {
-            throw new IAKException($exception->getMessage());
+        if ($exception instanceof ConnectException) {
+            return ResponseFormatter::formatResponse([
+                'error' => 'Connectin Timeout Error. Please check your internet connection and try again'
+            ], 408, 'failed');
         } else {
-            throw new UndefinedError();
+            return ResponseFormatter::formatResponse([
+                'error' => $exception->getMessage()
+            ], 400, 'failed');
         }
     }
 }

@@ -4,6 +4,7 @@ namespace Tests\Feature\Prepaid;
 
 use IakID\IakApiPHP\Exceptions\InvalidContentType;
 use IakID\IakApiPHP\Exceptions\MissingArguements;
+use IakID\IakApiPHP\Helpers\Formats\ResponseFormatter;
 use Tests\Mock\Prepaid\TopUpMock;
 use Tests\TestCase;
 
@@ -30,13 +31,16 @@ class TopUpTest extends TestCase
 
         $this->assertIsArray($response);
         $this->assertNotEmpty($response);
-        $this->assertEquals(TopUpMock::getTopUpMock(), $response);
+        $this->assertEquals(ResponseFormatter::formatResponse(
+            TopUpMock::getTopUpMock()['data']
+        ), $response);
     }
 
     /** @test */
     public function top_up_without_ref_id_return_missing_arguements(): void
     {
         unset($this->request['refId']);
+        $this->mock->shouldReceive('handleException')->andThrow(MissingArguements::class);
 
         try {
             $this->iakPrepaid->topUp($this->request);
@@ -49,6 +53,8 @@ class TopUpTest extends TestCase
     /** @test */
     public function top_up_with_string_parameter_return_invalid_content_type(): void
     {
+        $this->mock->shouldReceive('handleException')->andThrow(InvalidContentType::class);
+
         try {
             $this->iakPrepaid->topUp('request');
             $this->assertTrue(false);
