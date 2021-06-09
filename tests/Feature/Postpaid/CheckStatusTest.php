@@ -10,7 +10,7 @@ class CheckStatusTest extends TestCase
 {
     protected $mock, $request;
 
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
 
@@ -21,17 +21,17 @@ class CheckStatusTest extends TestCase
     }
 
     /** @test */
-    public function check_status_return_success_and_not_empty(): void
+    public function check_status_return_success_and_not_empty()
     {
         $response = $this->iakPostpaid->checkStatus($this->request);
 
-        $this->assertIsArray($response);
+        $this->assertTrue(is_array($response));
         $this->assertNotEmpty($response);
         $this->assertEquals(CheckStatusMock::getSuccessStatusMock(), $response);
     }
 
     /** @test */
-    public function check_status_without_ref_id_return_missing_arguements(): void
+    public function check_status_without_ref_id_return_missing_arguements()
     {
         unset($this->request['refId']);
 

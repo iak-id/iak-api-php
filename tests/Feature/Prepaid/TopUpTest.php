@@ -11,7 +11,7 @@ class TopUpTest extends TestCase
 {
     protected $mock, $request;
 
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
 
@@ -24,17 +24,17 @@ class TopUpTest extends TestCase
     }
 
     /** @test */
-    public function top_up_return_success_and_not_empty(): void
+    public function top_up_return_success_and_not_empty()
     {
         $response = $this->iakPrepaid->topUp($this->request);
 
-        $this->assertIsArray($response);
+        $this->assertTrue(is_array($response));
         $this->assertNotEmpty($response);
         $this->assertEquals(TopUpMock::getTopUpMock(), $response);
     }
 
     /** @test */
-    public function top_up_without_ref_id_return_missing_arguements(): void
+    public function top_up_without_ref_id_return_missing_arguements()
     {
         unset($this->request['refId']);
 
@@ -47,7 +47,7 @@ class TopUpTest extends TestCase
     }
 
     /** @test */
-    public function top_up_with_string_parameter_return_invalid_content_type(): void
+    public function top_up_with_string_parameter_return_invalid_content_type()
     {
         try {
             $this->iakPrepaid->topUp('request');

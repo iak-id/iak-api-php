@@ -10,7 +10,7 @@ class InquiryPLNTest extends TestCase
 {
     protected $mock, $request;
 
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
 
@@ -21,17 +21,17 @@ class InquiryPLNTest extends TestCase
     }
 
     /** @test */
-    public function inquiry_pln_return_success_and_not_empty(): void
+    public function inquiry_pln_return_success_and_not_empty()
     {
         $response = $this->iakPrepaid->inquiryPLN($this->request);
 
-        $this->assertIsArray($response);
+        $this->assertTrue(is_array($response));
         $this->assertNotEmpty($response);
         $this->assertEquals(InquiryPrepaidMock::getPLNMock(), $response);
     }
 
     /** @test */
-    public function inquiry_pln_without_customer_id_return_missing_arguements(): void
+    public function inquiry_pln_without_customer_id_return_missing_arguements()
     {
         unset($this->request['customerId']);
 

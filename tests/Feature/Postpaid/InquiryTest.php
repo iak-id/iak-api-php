@@ -10,7 +10,7 @@ class InquiryTest extends TestCase
 {
     protected $mock, $request;
 
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
 
@@ -23,19 +23,19 @@ class InquiryTest extends TestCase
     }
 
     /** @test */
-    public function inquiry_return_success_and_not_empty(): void
+    public function inquiry_return_success_and_not_empty()
     {
         $this->mock->shouldReceive('sendRequest')->andReturn(InquiryPostpaidMock::getPDAMSuccessMock());
 
         $response = $this->iakPostpaid->inquiry($this->request);
 
-        $this->assertIsArray($response);
+        $this->assertTrue(is_array($response));
         $this->assertNotEmpty($response);
         $this->assertEquals(InquiryPostpaidMock::getPDAMSuccessMock(), $response);
     }
 
     /** @test */
-    public function inquiry_without_code_return_missing_arguements(): void
+    public function inquiry_without_code_return_missing_arguements()
     {
         unset($this->request['code']);
 
@@ -48,7 +48,7 @@ class InquiryTest extends TestCase
     }
 
     /** @test */
-    public function inquiry_bpjs_return_success_and_not_empty(): void
+    public function inquiry_bpjs_return_success_and_not_empty()
     {
         $this->request['code'] = 'BPJS';
         $this->request['month'] = 2;
@@ -57,13 +57,13 @@ class InquiryTest extends TestCase
 
         $response = $this->iakPostpaid->inquiry($this->request);
 
-        $this->assertIsArray($response);
+        $this->assertTrue(is_array($response));
         $this->assertNotEmpty($response);
         $this->assertEquals(InquiryPostpaidMock::getBPJSSuccessMock(), $response);
     }
 
     /** @test */
-    public function inquiry_bpjs_without_month_return_missing_arguements(): void
+    public function inquiry_bpjs_without_month_return_missing_arguements()
     {
         $this->request['code'] = 'BPJS';        
 

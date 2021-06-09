@@ -10,7 +10,7 @@ class DownloadBillTest extends TestCase
 {
     protected $mock, $request;
 
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
 
@@ -21,17 +21,17 @@ class DownloadBillTest extends TestCase
     }
 
     /** @test */
-    public function download_bill_return_success_and_not_empty(): void
+    public function download_bill_return_success_and_not_empty()
     {
         $response = $this->iakPostpaid->downloadBill($this->request);
 
-        $this->assertIsArray($response);
+        $this->assertTrue(is_array($response));
         $this->assertNotEmpty($response);
         $this->assertEquals(DownloadBillMock::getSuccessMock(), $response);
     }
 
     /** @test */
-    public function download_bill_without_tr_id_return_missing_arguements(): void
+    public function download_bill_without_tr_id_return_missing_arguements()
     {
         unset($this->request['trId']);
 
