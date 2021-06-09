@@ -3,6 +3,7 @@
 namespace Tests\Feature\Prepaid;
 
 use IakID\IakApiPHP\Exceptions\MissingArguements;
+use IakID\IakApiPHP\Helpers\Formats\ResponseFormatter;
 use Tests\Mock\Prepaid\InquiryPrepaidMock;
 use Tests\TestCase;
 
@@ -27,7 +28,9 @@ class InquiryPLNTest extends TestCase
 
         $this->assertIsArray($response);
         $this->assertNotEmpty($response);
-        $this->assertEquals(InquiryPrepaidMock::getPLNMock(), $response);
+        $this->assertEquals(ResponseFormatter::formatResponse(
+            InquiryPrepaidMock::getPLNMock()['data']
+        ), $response);
     }
 
     /** @test */
@@ -47,5 +50,6 @@ class InquiryPLNTest extends TestCase
     {
         $this->mock = $this->mockClass('alias:IakID\IakApiPHP\Helpers\Request\Guzzle');
         $this->mock->shouldReceive('sendRequest')->andReturn(InquiryPrepaidMock::getPLNMock());
+        $this->mock->shouldReceive('handleException')->andThrow(MissingArguements::class);
     }
 }

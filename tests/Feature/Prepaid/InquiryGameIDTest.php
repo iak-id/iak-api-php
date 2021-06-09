@@ -3,6 +3,7 @@
 namespace Tests\Feature\Prepaid;
 
 use IakID\IakApiPHP\Exceptions\MissingArguements;
+use IakID\IakApiPHP\Helpers\Formats\ResponseFormatter;
 use Tests\Mock\Prepaid\InquiryPrepaidMock;
 use Tests\TestCase;
 
@@ -28,7 +29,9 @@ class InquiryGameIDTest extends TestCase
 
         $this->assertIsArray($response);
         $this->assertNotEmpty($response);
-        $this->assertEquals(InquiryPrepaidMock::getGameIDMock(), $response);
+        $this->assertEquals(ResponseFormatter::formatResponse(
+            InquiryPrepaidMock::getGameIDMock()['data']
+        ), $response);
     }
 
     /** @test */
@@ -48,5 +51,6 @@ class InquiryGameIDTest extends TestCase
     {
         $this->mock = $this->mockClass('alias:IakID\IakApiPHP\Helpers\Request\Guzzle');
         $this->mock->shouldReceive('sendRequest')->andReturn(InquiryPrepaidMock::getGameIDMock());
+        $this->mock->shouldReceive('handleException')->andThrow(MissingArguements::class);
     }
 }

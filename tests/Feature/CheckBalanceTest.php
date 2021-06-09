@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use IakID\IakApiPHP\Helpers\Formats\ResponseFormatter;
 use Tests\TestCase;
 use Tests\Mock\CheckBalanceMock;
 
@@ -22,6 +23,8 @@ class CheckBalanceTest extends TestCase
 
         $this->assertIsArray($response);
         $this->assertNotEmpty($response);
-        $this->assertEquals(CheckBalanceMock::getCheckBalanceSuccessResult(), $response);
+        $this->assertEquals(ResponseFormatter::formatResponse(
+            CheckBalanceMock::getCheckBalanceSuccessResult()['data']
+        ), $response);
     }
 }

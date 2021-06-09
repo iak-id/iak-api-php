@@ -3,6 +3,7 @@
 namespace Tests\Feature\Postpaid;
 
 use IakID\IakApiPHP\Exceptions\MissingArguements;
+use IakID\IakApiPHP\Helpers\Formats\ResponseFormatter;
 use Tests\Mock\Postpaid\CheckStatusMock;
 use Tests\TestCase;
 
@@ -27,7 +28,9 @@ class CheckStatusTest extends TestCase
 
         $this->assertIsArray($response);
         $this->assertNotEmpty($response);
-        $this->assertEquals(CheckStatusMock::getSuccessStatusMock(), $response);
+        $this->assertEquals(ResponseFormatter::formatResponse(
+            CheckStatusMock::getSuccessStatusMock()['data']
+        ), $response);
     }
 
     /** @test */
@@ -47,5 +50,6 @@ class CheckStatusTest extends TestCase
     {
         $this->mock = $this->mockClass('alias:IakID\IakApiPHP\Helpers\Request\Guzzle');
         $this->mock->shouldReceive('sendRequest')->andReturn(CheckStatusMock::getSuccessStatusMock());
+        $this->mock->shouldReceive('handleException')->andThrow(MissingArguements::class);
     }
 }

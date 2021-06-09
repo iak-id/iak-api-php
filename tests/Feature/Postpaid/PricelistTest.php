@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Postpaid;
 
+use IakID\IakApiPHP\Helpers\Formats\ResponseFormatter;
 use Tests\Mock\Postpaid\PricelistMock;
 use Tests\TestCase;
 
@@ -23,7 +24,9 @@ class PricelistTest extends TestCase
 
         $this->assertIsArray($response);
         $this->assertNotEmpty($response);
-        $this->assertEquals(PricelistMock::getPricelistMock(), $response);
+        $this->assertEquals(ResponseFormatter::formatResponse(
+            PricelistMock::getPricelistMock()['data']
+        ), $response);
     }
 
     /** @test */
@@ -37,7 +40,9 @@ class PricelistTest extends TestCase
 
         $this->assertIsArray($response);
         $this->assertNotEmpty($response);
-        $this->assertEquals(PricelistMock::getPricelistMock(), $response);
+        $this->assertEquals(ResponseFormatter::formatResponse(
+            PricelistMock::getPricelistMock()['data']
+        ), $response);
     }
 
     /** @test */
@@ -51,7 +56,9 @@ class PricelistTest extends TestCase
 
         $this->assertIsArray($response);
         $this->assertNotEmpty($response);
-        $this->assertEquals(PricelistMock::getPricelistMock(), $response);
+        $this->assertEquals(ResponseFormatter::formatResponse(
+            PricelistMock::getPricelistMock()['data']
+        ), $response);
     }
 
     private function setUpMock()

@@ -3,6 +3,7 @@
 namespace Tests\Feature\Postpaid;
 
 use IakID\IakApiPHP\Exceptions\MissingArguements;
+use IakID\IakApiPHP\Helpers\Formats\ResponseFormatter;
 use Tests\Mock\Postpaid\PaymentPostpaidMock;
 use Tests\TestCase;
 
@@ -27,7 +28,9 @@ class PaymentTest extends TestCase
 
         $this->assertIsArray($response);
         $this->assertNotEmpty($response);
-        $this->assertEquals(PaymentPostpaidMock::getSuccessMock(), $response);
+        $this->assertEquals(ResponseFormatter::formatResponse(
+            PaymentPostpaidMock::getSuccessMock()['data']
+        ), $response);
     }
 
     /** @test */
@@ -47,5 +50,6 @@ class PaymentTest extends TestCase
     {
         $this->mock = $this->mockClass('alias:IakID\IakApiPHP\Helpers\Request\Guzzle');
         $this->mock->shouldReceive('sendRequest')->andReturn(PaymentPostpaidMock::getSuccessMock());
+        $this->mock->shouldReceive('handleException')->andThrow(MissingArguements::class);
     }
 }

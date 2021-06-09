@@ -3,6 +3,7 @@
 namespace Tests\Feature\Prepaid;
 
 use IakID\IakApiPHP\Exceptions\MissingArguements;
+use IakID\IakApiPHP\Helpers\Formats\ResponseFormatter;
 use Tests\Mock\Prepaid\PricelistMock;
 use Tests\TestCase;
 
@@ -24,7 +25,9 @@ class PricelistTest extends TestCase
 
         $this->assertIsArray($response);
         $this->assertNotEmpty($response);
-        $this->assertEquals(PricelistMock::getPricelistMock(), $response);
+        $this->assertEquals(ResponseFormatter::formatResponse(
+            PricelistMock::getPricelistMock()['data']
+        ), $response);
     }
 
     /** @test */
@@ -38,7 +41,9 @@ class PricelistTest extends TestCase
 
         $this->assertIsArray($response);
         $this->assertNotEmpty($response);
-        $this->assertEquals(PricelistMock::getPricelistMock(), $response);
+        $this->assertEquals(ResponseFormatter::formatResponse(
+            PricelistMock::getPricelistMock()['data']
+        ), $response);
     }
 
     /** @test */
@@ -53,7 +58,9 @@ class PricelistTest extends TestCase
 
         $this->assertIsArray($response);
         $this->assertNotEmpty($response);
-        $this->assertEquals(PricelistMock::getPricelistMock(), $response);
+        $this->assertEquals(ResponseFormatter::formatResponse(
+            PricelistMock::getPricelistMock()['data']
+        ), $response);
     }
 
     /** @test */
@@ -75,5 +82,6 @@ class PricelistTest extends TestCase
     {
         $this->mock = $this->mockClass('alias:IakID\IakApiPHP\Helpers\Request\Guzzle');
         $this->mock->shouldReceive('sendRequest')->andReturn(PricelistMock::getPricelistMock());
+        $this->mock->shouldReceive('handleException')->andThrow(MissingArguements::class);
     }
 }
