@@ -26,7 +26,7 @@ class Guzzle
     {
         if ($exception instanceof ConnectException) {
             return ResponseFormatter::formatResponse([
-                'error' => 'Connectin Timeout Error. Please check your internet connection and try again'
+                'error' => 'Connection Timeout Error. Please check your internet connection and try again'
             ], 408, 'failed');
         } else {
             return ResponseFormatter::formatResponse([
