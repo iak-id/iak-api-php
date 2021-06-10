@@ -11,7 +11,7 @@ class InquiryGameServerTest extends TestCase
 {
     protected $mock, $request;
 
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
 
@@ -22,11 +22,11 @@ class InquiryGameServerTest extends TestCase
     }
 
     /** @test */
-    public function inquiry_game_server_return_success_and_not_empty(): void
+    public function inquiry_game_server_return_success_and_not_empty()
     {
         $response = $this->iakPrepaid->inquiryGameServer($this->request);
 
-        $this->assertIsArray($response);
+        $this->assertTrue(is_array($response));
         $this->assertNotEmpty($response);
         $this->assertEquals(ResponseFormatter::formatResponse(
             InquiryPrepaidMock::getGameServerMock()['data']
@@ -34,7 +34,7 @@ class InquiryGameServerTest extends TestCase
     }
 
     /** @test */
-    public function inquiry_game_server_without_game_code_return_missing_arguements(): void
+    public function inquiry_game_server_without_game_code_return_missing_arguements()
     {
         unset($this->request['gameCode']);
 

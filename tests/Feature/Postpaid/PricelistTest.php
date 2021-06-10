@@ -10,7 +10,7 @@ class PricelistTest extends TestCase
 {
     protected $mock;
 
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
 
@@ -18,11 +18,11 @@ class PricelistTest extends TestCase
     }
 
     /** @test */
-    public function pricelist_return_success_and_not_empty(): void
+    public function pricelist_return_success_and_not_empty()
     {
         $response = $this->iakPostpaid->pricelist();
 
-        $this->assertIsArray($response);
+        $this->assertTrue(is_array($response));
         $this->assertNotEmpty($response);
         $this->assertEquals(ResponseFormatter::formatResponse(
             PricelistMock::getPricelistMock()['data']
@@ -30,7 +30,7 @@ class PricelistTest extends TestCase
     }
 
     /** @test */
-    public function pricelist_with_status_return_success_and_not_empty(): void
+    public function pricelist_with_status_return_success_and_not_empty()
     {
         $request = [
             'status' => 'all'
@@ -38,7 +38,7 @@ class PricelistTest extends TestCase
 
         $response = $this->iakPostpaid->pricelist($request);
 
-        $this->assertIsArray($response);
+        $this->assertTrue(is_array($response));
         $this->assertNotEmpty($response);
         $this->assertEquals(ResponseFormatter::formatResponse(
             PricelistMock::getPricelistMock()['data']
@@ -46,7 +46,7 @@ class PricelistTest extends TestCase
     }
 
     /** @test */
-    public function pricelist_with_type_return_success_and_not_empty(): void
+    public function pricelist_with_type_return_success_and_not_empty()
     {
         $request = [
             'type' => 'pdam'
@@ -54,7 +54,7 @@ class PricelistTest extends TestCase
 
         $response = $this->iakPostpaid->pricelist($request);
 
-        $this->assertIsArray($response);
+        $this->assertTrue(is_array($response));
         $this->assertNotEmpty($response);
         $this->assertEquals(ResponseFormatter::formatResponse(
             PricelistMock::getPricelistMock()['data']

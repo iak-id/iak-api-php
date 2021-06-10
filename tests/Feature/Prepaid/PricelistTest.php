@@ -11,7 +11,7 @@ class PricelistTest extends TestCase
 {
     protected $mock;
 
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
 
@@ -19,11 +19,11 @@ class PricelistTest extends TestCase
     }
 
     /** @test */
-    public function pricelist_return_success_and_not_empty(): void
+    public function pricelist_return_success_and_not_empty()
     {
         $response = $this->iakPrepaid->pricelist();
 
-        $this->assertIsArray($response);
+        $this->assertTrue(is_array($response));
         $this->assertNotEmpty($response);
         $this->assertEquals(ResponseFormatter::formatResponse(
             PricelistMock::getPricelistMock()['data']
@@ -31,7 +31,7 @@ class PricelistTest extends TestCase
     }
 
     /** @test */
-    public function pricelist_with_type_return_success_and_not_empty(): void
+    public function pricelist_with_type_return_success_and_not_empty()
     {
         $request = [
             'type' => 'pulsa'
@@ -39,7 +39,7 @@ class PricelistTest extends TestCase
 
         $response = $this->iakPrepaid->pricelist($request);
 
-        $this->assertIsArray($response);
+        $this->assertTrue(is_array($response));
         $this->assertNotEmpty($response);
         $this->assertEquals(ResponseFormatter::formatResponse(
             PricelistMock::getPricelistMock()['data']
@@ -47,7 +47,7 @@ class PricelistTest extends TestCase
     }
 
     /** @test */
-    public function pricelist_with_type_and_operator_return_success_and_not_empty(): void
+    public function pricelist_with_type_and_operator_return_success_and_not_empty()
     {
         $request = [
             'type' => 'pulsa',
@@ -56,7 +56,7 @@ class PricelistTest extends TestCase
 
         $response = $this->iakPrepaid->pricelist($request);
 
-        $this->assertIsArray($response);
+        $this->assertTrue(is_array($response));
         $this->assertNotEmpty($response);
         $this->assertEquals(ResponseFormatter::formatResponse(
             PricelistMock::getPricelistMock()['data']
@@ -64,7 +64,7 @@ class PricelistTest extends TestCase
     }
 
     /** @test */
-    public function pricelist_with_operator_only_return_missing_arguements(): void
+    public function pricelist_with_operator_only_return_missing_arguements()
     {
         $request = [
             'operator' => 'telkomsel'

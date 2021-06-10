@@ -11,7 +11,7 @@ class InquiryGameIDTest extends TestCase
 {
     protected $mock, $request;
 
-    public function setUp(): void
+    public function setUp()
     {
         parent::setUp();
 
@@ -23,11 +23,11 @@ class InquiryGameIDTest extends TestCase
     }
 
     /** @test */
-    public function inquiry_game_id_return_success_and_not_empty(): void
+    public function inquiry_game_id_return_success_and_not_empty()
     {
         $response = $this->iakPrepaid->inquiryGameID($this->request);
 
-        $this->assertIsArray($response);
+        $this->assertTrue(is_array($response));
         $this->assertNotEmpty($response);
         $this->assertEquals(ResponseFormatter::formatResponse(
             InquiryPrepaidMock::getGameIDMock()['data']
@@ -35,7 +35,7 @@ class InquiryGameIDTest extends TestCase
     }
 
     /** @test */
-    public function inquiry_game_id_without_customer_id_return_missing_arguements(): void
+    public function inquiry_game_id_without_customer_id_return_missing_arguements()
     {
         unset($this->request['customerId']);
 
