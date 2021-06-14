@@ -32,7 +32,7 @@ echo $balanceResult;
 ```
 
 ## Documentation
-You can find the documentation of this package at [API SDK docs](https://api.iak.id/docs/sdk/docs/introduction.md)
+You can find the documentation of this package at [API SDK docs](https://api.iak.id/docs/sdk/docs/php/introduction.md)
 
 
 ## Changelog
