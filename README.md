@@ -32,7 +32,7 @@ echo $balanceResult;
 ```
 
 ## Documentation
-You can find the documentation of this package at [API SDK docs](https://api.iak.id/docs/sdk/docs/introduction.md)
+You can find the documentation of this package at [API SDK docs](https://api.iak.id/docs/sdk/docs/php/introduction.md)
 
 
 ## Changelog
@@ -40,4 +40,4 @@ See [CHANGELOG](https://api.iak.id/docs/sdk/docs/php/changelog.md) for more info
 
 
 ## Contributing
-You can contribute on the development of this package by [opening new issue(s)](https://github.com/iak-id/iak-api-php/issues) when encountering any bugs or issues in this project or by [creating new pull request(s)](https://github.com/iak-id/iak-api-php/pulls) to contribute directly to the code
+You can contribute on the development of this package by [opening new issue(s)](https://github.com/iak-id/iak-api-php/issues) when encountering any bugs or issues in this project or by [submitting new pull request(s)](https://github.com/iak-id/iak-api-php/pulls) to contribute directly to the code
