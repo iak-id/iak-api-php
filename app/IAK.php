@@ -2,22 +2,37 @@
 
 namespace IakID\IakApiPHP;
 
+use Dotenv\Dotenv;
+use IakID\IakApiPHP\Helpers\FileHelper;
 use IakID\IakApiPHP\Helpers\Validations\IAKValidator;
 
 abstract class IAK
 {
+    const DOT_ENV = '.env';
+
     protected $credential, $stage, $url, $headers;
 
     public function __construct(array $data = [])
     {
         IAKValidator::validateCredentialRequest($data);
 
+        $this->setEnvironmentFile();
         $this->setCredential($data);
 
         $this->headers = [
             'Content-Type' => 'application/json',
             'Accept' => 'application/json'
         ];
+    }
+
+    private function setEnvironmentFile()
+    {
+        $envDirectory = FileHelper::getAbsolutePathOfAncestorFile(self::DOT_ENV);
+        
+        if (file_exists($envDirectory . '/' . self::DOT_ENV)) {
+            $dotEnv = Dotenv::createMutable(FileHelper::getAbsolutePathOfAncestorFile(self::DOT_ENV));
+            $dotEnv->load();
+        }
     }
 
     private function setCredential($data)
