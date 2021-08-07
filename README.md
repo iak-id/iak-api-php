@@ -18,8 +18,15 @@ composer require iak-id/iak-api-php
 ## Getting Started
 You can use below snippet code to use our check balance service on prepaid API to get started on our SDK.
 
+### Prepaid
+
 ```php
 <?php
+// import autoload
+require_once __DIR__ . "/vendor/autoload.php";
+
+// import IAKPrepaid Class
+use IakID\IakApiPHP\Services\IAKPrepaid;
 
 $iakPrepaid = new IAKPrepaid([
   'userHp' => 'your-username',
