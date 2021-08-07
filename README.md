@@ -16,7 +16,7 @@ composer require iak-id/iak-api-php
 ```
 
 ## Getting Started
-You can use below snippet code to use our check balance service on prepaid API to get started on our SDK.
+You can use below snippet code to use our check balance service on prepaid API and get our pricelist on postpaid API to get started on our SDK.
 
 ### Prepaid
 
