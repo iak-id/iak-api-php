@@ -40,14 +40,13 @@ echo $balanceResult;
 
 ### Postpaid
 ```php
-
+<?php
 // import autoload
 require_once __DIR__ . "/vendor/autoload.php";
 
 // Import IAKPostpaid Class
 use IakID\IakApiPHP\Services\IAKPostpaid;
 
-<?php
 $iakPostpaid = new IAKPostpaid([
   'userHp' => 'your-username',
   'apiKey' => 'your-api-key-depending-on-stage',
