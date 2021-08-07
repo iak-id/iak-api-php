@@ -38,6 +38,27 @@ $balanceResult = $iakPrepaid->checkBalance();
 echo $balanceResult;
 ```
 
+### Postpaid
+```php
+
+// import autoload
+require_once __DIR__ . "/vendor/autoload.php";
+
+// Import IAKPostpaid Class
+use IakID\IakApiPHP\Services\IAKPostpaid;
+
+<?php
+$iakPostpaid = new IAKPostpaid([
+  'userHp' => 'your-username',
+  'apiKey' => 'your-api-key-depending-on-stage',
+  'stage' => 'sandbox-or-production'
+]);
+
+$pricelistResult = $iakPostpaid->pricelist();
+echo $pricelistResult;
+
+```
+
 ## Documentation
 You can find the documentation of this package at [API SDK docs](https://api.iak.id/docs/sdk/docs/php/introduction.md)
 
