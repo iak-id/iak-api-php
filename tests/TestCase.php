@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use IakID\IakApiPHP\IAK;
 use IakID\IakApiPHP\Services\IAKPostpaid;
 use IakID\IakApiPHP\Services\IAKPrepaid;
 use PHPUnit\Framework\TestCase as BaseTest;
@@ -12,7 +13,7 @@ class TestCase extends BaseTest
 {
     protected $data, $iakPrepaid, $iakPostpaid;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->data = [
             'userHp' => 'user_testing',
@@ -20,11 +21,13 @@ class TestCase extends BaseTest
             'stage' => 'sandbox'
         ];
 
-        $this->iakPrepaid = new IAKPrepaid($this->data);
-        $this->iakPostpaid = new IAKPostpaid($this->data);
+        $iak = new IAK($this->data);
+
+        $this->iakPrepaid = $iak->PrePaid();
+        $this->iakPostpaid = $iak->PostPaid();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 
@@ -35,5 +38,4 @@ class TestCase extends BaseTest
     {
         return Mockery::mock($class);
     }
-
 }

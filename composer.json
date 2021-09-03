@@ -27,12 +27,18 @@
         }
     },
     "require": {
-        "php": "^5.6 || ^7.0",
+        "php": "^7.0|^8.0",
         "guzzlehttp/guzzle": "^6.5 || ^7.0",
-        "vlucas/phpdotenv": "^4.2 || ^5.0"
+        "vlucas/phpdotenv": "^4.2 || ^5.0",
+        "symfony/http-foundation": "^5.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.7 || ^6.5",
+        "phpunit/phpunit": "*",
         "mockery/mockery": "~1.3"
+    },
+    "scripts": {
+        "check-code": [
+            "vendor/bin/phpunit tests"
+        ]
     }
 }

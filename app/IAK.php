@@ -6,11 +6,11 @@ use Dotenv\Dotenv;
 use IakID\IakApiPHP\Helpers\FileHelper;
 use IakID\IakApiPHP\Helpers\Validations\IAKValidator;
 
-abstract class IAK
+class IAK
 {
     const DOT_ENV = '.env';
 
-    protected $credential, $stage, $url, $headers;
+    protected $credential, $stage;
 
     public function __construct(array $data = [])
     {
@@ -18,17 +18,12 @@ abstract class IAK
 
         $this->setEnvironmentFile();
         $this->setCredential($data);
-
-        $this->headers = [
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json'
-        ];
     }
 
     private function setEnvironmentFile()
     {
         $envDirectory = FileHelper::getAbsolutePathOfAncestorFile(self::DOT_ENV);
-        
+
         if (file_exists($envDirectory . '/' . self::DOT_ENV)) {
             $dotEnv = Dotenv::createMutable(FileHelper::getAbsolutePathOfAncestorFile(self::DOT_ENV));
             $dotEnv->load();
@@ -58,8 +53,23 @@ abstract class IAK
         }
     }
 
-    protected function generateSign($sign)
+    public static function generateSign($username, $apikey, $sign)
     {
-        return md5($this->credential['userHp'] . $this->credential['apiKey'] . $sign);
+        return md5($username . $apikey . $sign);
+    }
+
+    public function PostPaid()
+    {
+        return new \IakID\IakApiPHP\Services\IAKPostpaid($this->credential, $this->stage);
+    }
+
+    public function PrePaid()
+    {
+        return new \IakID\IakApiPHP\Services\IAKPrepaid($this->credential, $this->stage);
+    }
+
+    public function initCallback()
+    {
+        return new \IakID\IakApiPHP\Services\IAKCallback($this->credential, $this->stage);
     }
 }

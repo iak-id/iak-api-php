@@ -25,17 +25,19 @@ You can use below snippet code to use our check balance service on prepaid API a
 // import autoload
 require_once __DIR__ . "/vendor/autoload.php";
 
-// import IAKPrepaid Class
-use IakID\IakApiPHP\Services\IAKPrepaid;
+use IakID\IakApiPHP\IAK;
 
-$iakPrepaid = new IAKPrepaid([
-  'userHp' => 'your-username',
-  'apiKey' => 'your-api-key-depending-on-stage',
-  'stage' => 'sandbox-or-production'
+$iak = new IAK([
+    'userHp' => 'your-username',
+    'apiKey' => 'your-api-key-depending-on-stage',
+    'stage' => 'sandbox-or-production'
 ]);
 
-$balanceResult = $iakPrepaid->checkBalance();
-echo $balanceResult;
+$prepaid = $iak->PrePaid();
+
+echo '<pre>';
+print_r($prepaid->checkBalance());
+echo '</pre>';
 ```
 
 ### Postpaid
@@ -44,17 +46,44 @@ echo $balanceResult;
 // import autoload
 require_once __DIR__ . "/vendor/autoload.php";
 
-// Import IAKPostpaid Class
-use IakID\IakApiPHP\Services\IAKPostpaid;
+use IakID\IakApiPHP\IAK;
 
-$iakPostpaid = new IAKPostpaid([
-  'userHp' => 'your-username',
-  'apiKey' => 'your-api-key-depending-on-stage',
-  'stage' => 'sandbox-or-production'
+$iak = new IAK([
+    'userHp' => 'your-username',
+    'apiKey' => 'your-api-key-depending-on-stage',
+    'stage' => 'sandbox-or-production'
 ]);
 
-$pricelistResult = $iakPostpaid->pricelist();
-echo $pricelistResult;
+$postpaid = $iak->PostPaid();
+
+echo '<pre>';
+print_r($postpaid->pricelist());
+echo '</pre>';
+
+```
+
+### Callback
+```php
+<?php
+// import autoload
+require __DIR__ . '/vendor/autoload.php';
+
+use IakID\IakApiPHP\IAK;
+
+$iak = new IAK([
+    'userHp' => 'your-username',
+    'apiKey' => 'your-api-key-depending-on-stage',
+    'stage' => 'sandbox-or-production'
+]);
+
+$init = $iak->initCallback();
+
+
+if ($init->validateSignature() && $init->validateIPNotifications()) {
+    file_put_contents(__DIR__ . '/callback.json', $init->get() . PHP_EOL . PHP_EOL, FILE_APPEND | LOCK_EX);
+} else {
+    file_put_contents(__DIR__ . '/callback.json', 'Sign :' . $init->validateSignature() . 'IP :' . $init->validateIPNotifications() . PHP_EOL . PHP_EOL, FILE_APPEND | LOCK_EX);
+}
 
 ```
 

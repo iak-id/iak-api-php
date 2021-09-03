@@ -11,7 +11,7 @@ class PricelistTest extends TestCase
 {
     protected $mock;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

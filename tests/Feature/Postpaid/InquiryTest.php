@@ -11,7 +11,7 @@ class InquiryTest extends TestCase
 {
     protected $mock, $request;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -70,7 +70,7 @@ class InquiryTest extends TestCase
     /** @test */
     public function inquiry_bpjs_without_month_return_missing_arguements()
     {
-        $this->request['code'] = 'BPJS';        
+        $this->request['code'] = 'BPJS';
 
         try {
             $this->iakPostpaid->inquiry($this->request);
