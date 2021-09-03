@@ -79,7 +79,7 @@ class IAKPostpaid
 
             $request = array_merge($request, [
                 'commands' => 'inq-pasca',
-                'username' => $this->credential['userHp'],
+                'username' => $this->iak["userHp"],
                 'sign' => IAK::generateSign($this->iak["userHp"],  $this->iak["apiKey"], $request['ref_id'])
             ]);
 
@@ -101,7 +101,7 @@ class IAKPostpaid
 
             $request = array_merge($request, [
                 'commands' => 'pay-pasca',
-                'username' => $this->credential['userHp'],
+                'username' => $this->iak["userHp"],
                 'sign' => IAK::generateSign($this->iak["userHp"],  $this->iak["apiKey"], strval($request['tr_id']))
             ]);
 
@@ -121,7 +121,7 @@ class IAKPostpaid
 
             $request = array_merge($request, [
                 'commands' => 'pricelist-pasca',
-                'username' => $this->credential['userHp'],
+                'username' => $this->iak["userHp"],
                 'sign' => IAK::generateSign($this->iak["userHp"],  $this->iak["apiKey"], 'pl')
             ]);
 

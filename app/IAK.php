@@ -63,7 +63,7 @@ class IAK
         return new \IakID\IakApiPHP\Services\IAKPostpaid($this->credential, $this->stage);
     }
 
-    public function Prepaid()
+    public function PrePaid()
     {
         return new \IakID\IakApiPHP\Services\IAKPrepaid($this->credential, $this->stage);
     }

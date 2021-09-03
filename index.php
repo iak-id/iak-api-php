@@ -13,9 +13,9 @@ $iak = new IAK([
 ]);
 
 $postpaid = $iak->PostPaid();
-$prepaid = $iak->Prepaid();
+$prepaid = $iak->PrePaid();
 
 
 echo '<pre>';
-var_dump($prepaid);
+var_dump($prepaid->checkBalance());
 echo '</pre>';

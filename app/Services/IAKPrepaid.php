@@ -29,7 +29,7 @@ class IAKPrepaid
     {
         try {
             $request = [
-                'username' => $this->credential['userHp'],
+                'username' => $this->iak["userHp"],
                 'sign' => IAK::generateSign($this->iak["userHp"],  $this->iak["apiKey"], 'bl')
             ];
 
@@ -50,7 +50,7 @@ class IAKPrepaid
             $request = RequestFormatter::formatArrayKeysToSnakeCase($request);
 
             $request = array_merge($request, [
-                'username' => $this->credential['userHp'],
+                'username' => $this->iak["userHp"],
                 'sign' => IAK::generateSign($this->iak["userHp"],  $this->iak["apiKey"], $request['ref_id'])
             ]);
 
@@ -71,7 +71,7 @@ class IAKPrepaid
             $request = RequestFormatter::formatArrayKeysToSnakeCase($request);
 
             $request = array_merge($request, [
-                'username' => $this->credential['userHp'],
+                'username' => $this->iak["userHp"],
                 'sign' => IAK::generateSign($this->iak["userHp"],  $this->iak["apiKey"], $request['game_code'])
             ]);
 
@@ -92,7 +92,7 @@ class IAKPrepaid
             $request = RequestFormatter::formatArrayKeysToSnakeCase($request);
 
             $request = array_merge($request, [
-                'username' => $this->credential['userHp'],
+                'username' => $this->iak["userHp"],
                 'sign' => IAK::generateSign($this->iak["userHp"],  $this->iak["apiKey"], $request['game_code'])
             ]);
 
@@ -113,7 +113,7 @@ class IAKPrepaid
             $request = RequestFormatter::formatArrayKeysToSnakeCase($request);
 
             $request = array_merge($request, [
-                'username' => $this->credential['userHp'],
+                'username' => $this->iak["userHp"],
                 'sign' => IAK::generateSign($this->iak["userHp"],  $this->iak["apiKey"], $request['customer_id'])
             ]);
 
@@ -132,7 +132,7 @@ class IAKPrepaid
             IAKPrepaidValidator::validatePricelistRequest($request);
 
             $request = array_merge($request, [
-                'username' => $this->credential['userHp'],
+                'username' => $this->iak["userHp"],
                 'sign' => IAK::generateSign($this->iak["userHp"],  $this->iak["apiKey"], 'pl')
             ]);
 
@@ -163,7 +163,7 @@ class IAKPrepaid
             $request = RequestFormatter::formatArrayKeysToSnakeCase($request);
 
             $request = array_merge($request, [
-                'username' => $this->credential['userHp'],
+                'username' => $this->iak["userHp"],
                 'sign' => IAK::generateSign($this->iak["userHp"],  $this->iak["apiKey"], $request['ref_id'])
             ]);
 
