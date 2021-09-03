@@ -25,17 +25,19 @@ You can use below snippet code to use our check balance service on prepaid API a
 // import autoload
 require_once __DIR__ . "/vendor/autoload.php";
 
-// import IAKPrepaid Class
-use IakID\IakApiPHP\Services\IAKPrepaid;
+use IakID\IakApiPHP\IAK;
 
-$iakPrepaid = new IAKPrepaid([
-  'userHp' => 'your-username',
-  'apiKey' => 'your-api-key-depending-on-stage',
-  'stage' => 'sandbox-or-production'
+$iak = new IAK([
+    'userHp' => 'your-username',
+    'apiKey' => 'your-api-key-depending-on-stage',
+    'stage' => 'sandbox-or-production'
 ]);
 
-$balanceResult = $iakPrepaid->checkBalance();
-echo $balanceResult;
+$prepaid = $iak->PrePaid();
+
+echo '<pre>';
+print_r($prepaid->checkBalance());
+echo '</pre>';
 ```
 
 ### Postpaid
@@ -43,18 +45,19 @@ echo $balanceResult;
 <?php
 // import autoload
 require_once __DIR__ . "/vendor/autoload.php";
+use IakID\IakApiPHP\IAK;
 
-// Import IAKPostpaid Class
-use IakID\IakApiPHP\Services\IAKPostpaid;
-
-$iakPostpaid = new IAKPostpaid([
-  'userHp' => 'your-username',
-  'apiKey' => 'your-api-key-depending-on-stage',
-  'stage' => 'sandbox-or-production'
+$iak = new IAK([
+    'userHp' => 'your-username',
+    'apiKey' => 'your-api-key-depending-on-stage',
+    'stage' => 'sandbox-or-production'
 ]);
 
-$pricelistResult = $iakPostpaid->pricelist();
-echo $pricelistResult;
+$postpaid = $iak->PostPaid();
+
+echo '<pre>';
+print_r($postpaid->pricelist());
+echo '</pre>';
 
 ```
 
