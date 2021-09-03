@@ -45,6 +45,7 @@ echo '</pre>';
 <?php
 // import autoload
 require_once __DIR__ . "/vendor/autoload.php";
+
 use IakID\IakApiPHP\IAK;
 
 $iak = new IAK([
@@ -58,6 +59,31 @@ $postpaid = $iak->PostPaid();
 echo '<pre>';
 print_r($postpaid->pricelist());
 echo '</pre>';
+
+```
+
+### Callback
+```php
+<?php
+// import autoload
+require __DIR__ . '/vendor/autoload.php';
+
+use IakID\IakApiPHP\IAK;
+
+$iak = new IAK([
+    'userHp' => 'your-username',
+    'apiKey' => 'your-api-key-depending-on-stage',
+    'stage' => 'sandbox-or-production'
+]);
+
+$init = $iak->initCallback();
+
+
+if ($init->validateSignature() && $init->validateIPNotifications()) {
+    file_put_contents(__DIR__ . '/callback.json', $init->get() . PHP_EOL . PHP_EOL, FILE_APPEND | LOCK_EX);
+} else {
+    file_put_contents(__DIR__ . '/callback.json', 'Sign :' . $init->validateSignature() . 'IP :' . $init->validateIPNotifications() . PHP_EOL . PHP_EOL, FILE_APPEND | LOCK_EX);
+}
 
 ```
 

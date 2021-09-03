@@ -67,4 +67,9 @@ class IAK
     {
         return new \IakID\IakApiPHP\Services\IAKPrepaid($this->credential, $this->stage);
     }
+
+    public function initCallback()
+    {
+        return new \IakID\IakApiPHP\Services\IAKCallback($this->credential, $this->stage);
+    }
 }
