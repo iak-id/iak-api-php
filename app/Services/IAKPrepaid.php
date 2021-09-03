@@ -10,13 +10,19 @@ use IakID\IakApiPHP\Helpers\Request\RequestFormatter;
 use IakID\IakApiPHP\Helpers\Validations\IAKPrepaidValidator;
 use IakID\IakApiPHP\IAK;
 
-class IAKPrepaid extends IAK
+class IAKPrepaid
 {
-    public function __construct($data = [])
-    {
-        parent::__construct($data);
+    private $iak, $url, $headers;
 
-        $this->url = Url::URL_PREPAID[$this->stage];
+    public function __construct($credential, $stage)
+    {
+        $this->iak = $credential;
+        $this->url = Url::URL_PREPAID[$stage];
+
+        $this->headers = [
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json'
+        ];
     }
 
     public function checkBalance()
@@ -24,7 +30,7 @@ class IAKPrepaid extends IAK
         try {
             $request = [
                 'username' => $this->credential['userHp'],
-                'sign' => $this->generateSign('bl')
+                'sign' => IAK::generateSign($this->iak["userHp"],  $this->iak["apiKey"], 'bl')
             ];
 
             $response = Guzzle::sendRequest($this->url . '/api/check-balance', 'POST', $this->headers, $request);
@@ -45,7 +51,7 @@ class IAKPrepaid extends IAK
 
             $request = array_merge($request, [
                 'username' => $this->credential['userHp'],
-                'sign' => $this->generateSign($request['ref_id'])
+                'sign' => IAK::generateSign($this->iak["userHp"],  $this->iak["apiKey"], $request['ref_id'])
             ]);
 
             $response = Guzzle::sendRequest($this->url . '/api/check-status', 'POST', $this->headers, $request);
@@ -66,7 +72,7 @@ class IAKPrepaid extends IAK
 
             $request = array_merge($request, [
                 'username' => $this->credential['userHp'],
-                'sign' => $this->generateSign($request['game_code'])
+                'sign' => IAK::generateSign($this->iak["userHp"],  $this->iak["apiKey"], $request['game_code'])
             ]);
 
             $response = Guzzle::sendRequest($this->url . '/api/inquiry-game', 'POST', $this->headers, $request);
@@ -87,7 +93,7 @@ class IAKPrepaid extends IAK
 
             $request = array_merge($request, [
                 'username' => $this->credential['userHp'],
-                'sign' => $this->generateSign($request['game_code'])
+                'sign' => IAK::generateSign($this->iak["userHp"],  $this->iak["apiKey"], $request['game_code'])
             ]);
 
             $response = Guzzle::sendRequest($this->url . '/api/inquiry-game-server', 'POST', $this->headers, $request);
@@ -108,7 +114,7 @@ class IAKPrepaid extends IAK
 
             $request = array_merge($request, [
                 'username' => $this->credential['userHp'],
-                'sign' => $this->generateSign($request['customer_id'])
+                'sign' => IAK::generateSign($this->iak["userHp"],  $this->iak["apiKey"], $request['customer_id'])
             ]);
 
             $response = Guzzle::sendRequest($this->url . '/api/inquiry-pln', 'POST', $this->headers, $request);
@@ -127,7 +133,7 @@ class IAKPrepaid extends IAK
 
             $request = array_merge($request, [
                 'username' => $this->credential['userHp'],
-                'sign' => $this->generateSign('pl')
+                'sign' => IAK::generateSign($this->iak["userHp"],  $this->iak["apiKey"], 'pl')
             ]);
 
             $prepaidUrl = $this->url . '/api/pricelist';
@@ -158,7 +164,7 @@ class IAKPrepaid extends IAK
 
             $request = array_merge($request, [
                 'username' => $this->credential['userHp'],
-                'sign' => $this->generateSign($request['ref_id'])
+                'sign' => IAK::generateSign($this->iak["userHp"],  $this->iak["apiKey"], $request['ref_id'])
             ]);
 
             $response = Guzzle::sendRequest($this->url . '/api/top-up', 'POST', $this->headers, $request);

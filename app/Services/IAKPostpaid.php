@@ -11,13 +11,19 @@ use IakID\IakApiPHP\Helpers\Request\RequestFormatter;
 use IakID\IakApiPHP\Helpers\Validations\IAKPostpaidValidator;
 use IakID\IakApiPHP\IAK;
 
-class IAKPostpaid extends IAK
+class IAKPostpaid
 {
-    public function __construct($data = [])
-    {
-        parent::__construct($data);
+    private $iak, $url, $headers;
 
-        $this->url = Url::URL_POSTPAID[$this->stage];
+    public function __construct($credential, $stage)
+    {
+        $this->iak = $credential;
+
+        $this->url = Url::URL_POSTPAID[$stage];
+        $this->headers = [
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json'
+        ];
     }
 
     public function checkStatus($request = [])
@@ -29,8 +35,8 @@ class IAKPostpaid extends IAK
 
             $request = array_merge($request, [
                 'commands' => 'checkstatus',
-                'username' => $this->credential['userHp'],
-                'sign' => $this->generateSign('cs')
+                'username' => $this->iak["userHp"],
+                'sign' => IAK::generateSign($this->iak["userHp"],  $this->iak["apiKey"], 'cs')
             ]);
 
             $response = Guzzle::sendRequest($this->url . '/api/v1/bill/check', 'POST', $this->headers, $request);
@@ -74,7 +80,7 @@ class IAKPostpaid extends IAK
             $request = array_merge($request, [
                 'commands' => 'inq-pasca',
                 'username' => $this->credential['userHp'],
-                'sign' => $this->generateSign($request['ref_id'])
+                'sign' => IAK::generateSign($this->iak["userHp"],  $this->iak["apiKey"], $request['ref_id'])
             ]);
 
             $response = Guzzle::sendRequest($this->url . '/api/v1/bill/check', 'POST', $this->headers, $request);
@@ -96,7 +102,7 @@ class IAKPostpaid extends IAK
             $request = array_merge($request, [
                 'commands' => 'pay-pasca',
                 'username' => $this->credential['userHp'],
-                'sign' => $this->generateSign(strval($request['tr_id']))
+                'sign' => IAK::generateSign($this->iak["userHp"],  $this->iak["apiKey"], strval($request['tr_id']))
             ]);
 
             $response = Guzzle::sendRequest($this->url . '/api/v1/bill/check', 'POST', $this->headers, $request);
@@ -116,7 +122,7 @@ class IAKPostpaid extends IAK
             $request = array_merge($request, [
                 'commands' => 'pricelist-pasca',
                 'username' => $this->credential['userHp'],
-                'sign' => $this->generateSign('pl')
+                'sign' => IAK::generateSign($this->iak["userHp"],  $this->iak["apiKey"], 'pl')
             ]);
 
             $postpaidUrl = $this->url . '/api/v1/bill/check';
@@ -127,7 +133,7 @@ class IAKPostpaid extends IAK
 
             $response = Guzzle::sendRequest($postpaidUrl, 'POST', $this->headers, $request);
             $response = $response['data'];
-            
+
             return ResponseFormatter::formatResponse($response);
         } catch (Exception $e) {
             return Guzzle::handleException($e);
