@@ -12,7 +12,7 @@ class TestCase extends BaseTest
 {
     protected $data, $iakPrepaid, $iakPostpaid;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->data = [
             'userHp' => 'user_testing',
@@ -24,7 +24,7 @@ class TestCase extends BaseTest
         $this->iakPostpaid = new IAKPostpaid($this->data);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
 
@@ -35,5 +35,4 @@ class TestCase extends BaseTest
     {
         return Mockery::mock($class);
     }
-
 }

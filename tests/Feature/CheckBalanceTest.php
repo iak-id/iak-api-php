@@ -8,7 +8,7 @@ use Tests\Mock\CheckBalanceMock;
 
 class CheckBalanceTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
     }

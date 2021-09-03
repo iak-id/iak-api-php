@@ -12,7 +12,7 @@ class TopUpTest extends TestCase
 {
     protected $mock, $request;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
